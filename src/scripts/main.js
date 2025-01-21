@@ -3,26 +3,24 @@
 const dataList = [...document.querySelectorAll('li')];
 const ul = document.querySelector('ul');
 
-function stringToNum(string) {
-  return Number(string.replace('$', '').replace(',', ''));
-}
+const parseSalary = (salaryString) =>
+  Number(salaryString.replace('$', '').replace(',', ''));
 
-function sortList(list) {
-  list.sort(
-    (a, b) => stringToNum(b.dataset.salary) - stringToNum(a.dataset.salary),
+const sortListBySalary = (list) => {
+  const sortedList = [...list].sort(
+    (a, b) => parseSalary(b.dataset.salary) - parseSalary(a.dataset.salary),
   );
 
-  list.forEach((el) => ul.appendChild(el));
-}
+  sortedList.forEach((el) => ul.appendChild(el));
+};
 
-function getEmployees(list) {
-  return list.map((el) => ({
-    name: el.textContent,
+const mapToEmployees = (list) =>
+  list.map((el) => ({
+    name: el.textContent.trim(),
     position: el.dataset.position,
     salary: el.dataset.salary,
     age: el.dataset.age,
   }));
-}
 
-sortList(dataList);
-getEmployees(dataList);
+sortListBySalary(dataList);
+mapToEmployees(dataList);
